@@ -1,0 +1,10 @@
+{
+  "count_file_name": "vyin_011.1562876200.gene_id.expected_count.txt",
+  "design_file_name": "design_wPC1.txt",
+  "row_sum_th": "1",
+  "model_formula": "treatment+pc1",
+  "contrast": ["treatment", "ZF143", "DMSO"],
+  "output_prefix": "DESeq2_genes_wPC",
+  "gene_col_title": "gene_id",
+  "separator": "\t"
+}
