@@ -1,6 +1,6 @@
-#! /usr/bin/Rscript --vanilla --default-packages=utils
-import json
-import subprocess
+import pandas as pd
 
-# subprocess to call the deseq2_exec.R script
-subprocess.call ("/Users/nmaki/Documents/GitHub/IDEA/deseq2_exec.R")
+# read in csv file
+data = pd.read_csv("/Users/nmaki/Documents/GitHub/IDEA/DESeq2_genes_wPC_DESeq2out.csv")
+print(data.head())
+
