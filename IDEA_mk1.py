@@ -9,6 +9,7 @@ import data_access
 from time import sleep
 
 # read in csv file
+# this is somewhat deprecated as data_access includes this feature
 df = pd.read_csv(
     '/Users/nmaki/Documents/GitHub/IDEA/DESeq2_genes_wPC_DESeq2out.csv',
     sep=',')
@@ -20,4 +21,6 @@ log2FoldChange_sort.to_csv(
 
 
 string_call.request()
-data_access.excision()
+data_access.select()
+print("This is a divider")
+data_access.threshold()
