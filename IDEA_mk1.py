@@ -1,10 +1,12 @@
 import pandas as pd
+import numpy as np
 import csv
 import json
 import sys
 import urllib.request
-from time import sleep
 import string_call
+import data_access
+from time import sleep
 
 # read in csv file
 df = pd.read_csv(
@@ -16,4 +18,6 @@ log2FoldChange_sort.to_csv(
     "/Users/nmaki/Documents/GitHub/IDEA/DESeq2_genes_wPC_DESeq2out_edited.csv",
     index=False)
 
+
 string_call.request()
+data_access.excision()
