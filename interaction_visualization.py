@@ -1,3 +1,6 @@
+# for each pair of proteins in a list, save PNG image of
+# STRING network for defined # of confident interacting partners
+
 import urllib.request
 from time import sleep
 
@@ -18,7 +21,7 @@ def request():
     request_url = string_api_url + "/" + output_format + "/" + method + "?"
     request_url += "identifiers=%s"
     request_url += "&" + "species=" + species
-    request_url += "&" + "add_white_nodes=30"
+    request_url += "&" + "add_white_nodes=15"
     request_url += "&" + "caller_identity=" + my_app
 
     # for each gene, call STRING

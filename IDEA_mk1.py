@@ -4,12 +4,14 @@ import csv
 import json
 import sys
 import urllib.request
-import string_call
+import interaction_visualization
+import interaction_evidence
 import data_access
+import subprocess
 from time import sleep
 
 # read in csv file
-# this is somewhat deprecated as data_access includes this feature
+# this is deprecated as data_access includes this feature
 df = pd.read_csv(
     '/Users/nmaki/Documents/GitHub/IDEA/DESeq2_genes_wPC_DESeq2out.csv',
     sep=',')
@@ -19,8 +21,12 @@ log2FoldChange_sort.to_csv(
     "/Users/nmaki/Documents/GitHub/IDEA/DESeq2_genes_wPC_DESeq2out_edited.csv",
     index=False)
 
-
-string_call.request()
 data_access.select()
-print("This is a divider")
 data_access.threshold()
+
+print("STRING interaction database components below:")
+
+interaction_evidence.request()
+interaction_visualization.request()
+
+

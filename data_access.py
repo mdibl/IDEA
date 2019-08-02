@@ -14,9 +14,10 @@ def select():
     print(padj_df)
     print(log2fc_df)
 
-# threholding function for p-val, padj,l2fc
+# thresholding function for p-val, padj,l2fc
 def threshold():
     df = pd.read_csv('eDESeq2.csv')
     thresh_df = df[['genes', 'pvalue', 'padj', 'log2FoldChange']]
     thresh_val = thresh_df.loc[(thresh_df['pvalue'] < 0.05) & (thresh_df['padj'] < 0.1) & (thresh_df['log2FoldChange'] < 0.5)]
     print(thresh_val)
+    print(thresh_val['genes'])
