@@ -26,6 +26,6 @@ def request():
 
     # for each gene, call STRING
     for gene_pair in my_genes:
-        gene1, gene2 = gene_pair
+        # gene1, gene2 = gene_pair
         urllib.request.urlretrieve(request_url % "%0d".join(gene_pair), "%s.png" % "_".join(gene_pair))
         sleep(1)
