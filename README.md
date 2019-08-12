@@ -19,7 +19,7 @@ Relaxed threshold variables: (also best as json or yml). These can include any o
 ### Note 2: 
   It is also probably worth our time to define some bounds to put on variables or the resulting size of the gene lists that are tested BEFORE any external requests for information are made. Sanity checks on the data, which can prevent ridiculous behavior. It’s always better the catch errors or typos early rather than late.
 
-Steps to be carried out in the main algorithm:
+### Steps to be carried out in the main algorithm:
 
 Open inputs (parameters and DE gene file). Make sure all sanity tests have been passed
 
