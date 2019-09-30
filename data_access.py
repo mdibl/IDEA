@@ -1,5 +1,10 @@
 import pandas as pd
 
+'''
+Data access function meant to load in DESEQ2 output
+Additionally, thresholds.  Currently hardcoded
+Will want to pass in values through JSON file for reusability
+'''
 # data selection function
 # redundant, remove me
 def select():

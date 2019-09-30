@@ -15,7 +15,7 @@ def request():
 
    # use taxonomy ID for zebrafish
     species = "7955"
-    my_app = "dev.azure.com/MDIBL"
+    my_app = "www.awesome_app.org"
 
     # construct request
     request_url = string_api_url + "/" + output_format + "/" + method + "?"
