@@ -11,5 +11,6 @@ args = parser.parse_args()
 with open(args.filename) as file:
     try:
         print(yaml.safe_load(file))
+        # load in DESeq2 file from yaml
     except yaml.YAMLError as exc:
         print(exc)
