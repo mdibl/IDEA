@@ -1,14 +1,15 @@
 #TODO: check for open success, if fail die
 import yaml
 import logging
+import argparse
 import pandas as pd
 
-# update to be dynamic
-with open("/Users/nmaki/Documents/GitHub/IDEA/tests/config.yaml", 'r') as stream:
+# argparser for input file
+parser = argparse.ArgumentParser()
+parser.add_argument('filename')
+args = parser.parse_args()
+with open(args.filename) as file:
     try:
-        print(yaml.safe_load(stream))
+        print(yaml.safe_load(file))
     except yaml.YAMLError as exc:
         print(exc)
-# argparser for yaml input file
-def parser():
-    parser.add_argument("--file", type=FileType('r'))
