@@ -3,7 +3,7 @@ DESeq_input:
   class: File
   path: /Users/nmaki/Documents/GitHub/IDEA/tests/DESeq2_genes_wPC_DESeq2out.csv
 
-# Thresholds for DESeq2 candidates to send to String-db
+# initial thresholds for DESeq2 candidates to send to String-db
 pvalue: 0.05
 padj: 0.1
 log2FoldChange: 0.5
