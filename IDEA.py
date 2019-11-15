@@ -15,13 +15,23 @@ with open(args.filename) as file:
         # TODO: load yaml, create df from csv contents
         # must work with argparse
         #df = pd.io.json.json_normalize(yaml.safe_load(file))
-        #print(df.head())
         config = yaml.full_load(file)
         #for item, doc in config.items():
             #print (item, ":", doc)
         input_path = config['DESeq_input']['path']
-        print(input_path)
+        #print(input_path)
         df = pd.read_csv(input_path)
         print(df)
+        baseMean = config['baseMean']
+        print(baseMean)
+        log2FoldChange = config['log2FoldChange']
+        print(log2FoldChange)
+        lfcSE = config['lfcSE']
+        print(lfcSE)
+        pvalue = config['pvalue']
+        print(pvalue)
+        padj = config['padj']
+        print(padj)
+        # now use threshold value to cut down CSV
     except yaml.YAMLError as exc:
         print(exc)
