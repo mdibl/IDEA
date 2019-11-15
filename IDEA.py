@@ -17,7 +17,11 @@ with open(args.filename) as file:
         #df = pd.io.json.json_normalize(yaml.safe_load(file))
         #print(df.head())
         config = yaml.full_load(file)
-        for item, doc in config.items():
-            print (item, ":", doc)
+        #for item, doc in config.items():
+            #print (item, ":", doc)
+        input_path = config['DESeq_input']['path']
+        print(input_path)
+        df = pd.read_csv(input_path)
+        print(df)
     except yaml.YAMLError as exc:
         print(exc)

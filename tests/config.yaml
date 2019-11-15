@@ -14,3 +14,7 @@ padj: 0.05
 
 # output directory
 # may be handled within python program as opposed to config file
+
+# instead of hardcoding, pass taxonomy ID to main program
+# create lookup table so that we don't have to reference ncbi for ID 
+species: "7955"
