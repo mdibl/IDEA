@@ -31,7 +31,7 @@ with open(args.filename) as file:
         padj = config['padj']
         # now use threshold value to cut down CSV
         thresh_df = df[['genes','baseMean','log2FoldChange','lfcSE','pvalue','padj']]
-        #thresh_df.set_index('genes')
+        thresh_df.set_index('genes')
         print(thresh_df)
         thresh_val = thresh_df.loc[(thresh_df['baseMean'] < baseMean) 
                                     & (thresh_df['log2FoldChange'] < log2FoldChange)
