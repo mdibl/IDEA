@@ -24,21 +24,21 @@ with open(args.filename) as file:
         input_path = config['DESeq_input']['path']
         #print(input_path)
         df = pd.read_csv(input_path)
-        print(df)
         baseMean = config['baseMean']
-        print(baseMean)
         log2FoldChange = config['log2FoldChange']
-        print(log2FoldChange)
         lfcSE = config['lfcSE']
-        print(lfcSE)
         pvalue = config['pvalue']
-        print(pvalue)
         padj = config['padj']
-        print(padj)
         # now use threshold value to cut down CSV
         thresh_df = df[['genes','baseMean','log2FoldChange','lfcSE','pvalue','padj']]
         #thresh_df.set_index('genes')
         print(thresh_df)
+        thresh_val = thresh_df.loc[(thresh_df['baseMean'] < baseMean) 
+                                    & (thresh_df['log2FoldChange'] < log2FoldChange)
+                                    & (thresh_df['lfcSE'] < lfcSE) 
+                                    & (thresh_df['pvalue'] < pvalue) 
+                                    & (thresh_df['padj'] < padj)]
+        print(thresh_val)
     except yaml.YAMLError as exc:
         print(exc)
 
