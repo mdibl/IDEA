@@ -4,6 +4,9 @@ import logging
 import argparse
 import pandas as pd
 
+# implement max_query_size(500) for now
+# avoid overloading string-db
+
 # argparser for input file
 parser = argparse.ArgumentParser()
 parser.add_argument('filename')
@@ -33,5 +36,14 @@ with open(args.filename) as file:
         padj = config['padj']
         print(padj)
         # now use threshold value to cut down CSV
+        thresh_df = df[['genes','baseMean','log2FoldChange','lfcSE','pvalue','padj']]
+        #thresh_df.set_index('genes')
+        print(thresh_df)
     except yaml.YAMLError as exc:
         print(exc)
+
+# open and read based on secondary threshold
+# slice based upon names that pass primary threshhold
+# split passing and failing into separate tables
+# remove duplicates?
+

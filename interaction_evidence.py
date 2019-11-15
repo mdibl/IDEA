@@ -12,7 +12,7 @@ def request():
     my_genes = ["ENSDARG00000003495", "ENSDARG00000007245",
                 "ENSDARG00000000779", "ENSDARG00000000690",
                 "ENSDARG00000002909", "ENSDARG00000002790"]
-
+# TODO: if gene_list exceeds 500, break query(s) into chunks?
    # use taxonomy ID for zebrafish
     species = "7955"
     my_app = "www.awesome_app.org"
