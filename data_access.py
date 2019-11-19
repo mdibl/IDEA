@@ -23,8 +23,7 @@ Will want to pass in values through yaml file for reusability
 # thresholding function for p-val, padj,l2fc
 def threshold():
     df = pd.read_csv('/Users/nmaki/Documents/GitHub/IDEA/tests/eDESeq2.csv')
-    thresh_df = df[['genes', 'pvalue', 'padj', 'log2FoldChange']]
-    thresh_val = thresh_df.loc[(thresh_df['pvalue'] < 0.05) & (thresh_df['padj'] < 0.1) & (thresh_df['log2FoldChange'] < 0.5)]
-    print(thresh_val)
-    print(thresh_val['genes'])
+    df_select = df[['genes', 'pvalue', 'padj', 'log2FoldChange']]
+    df_threshold = df_select.loc[(df_select['pvalue'] < 0.05) & (df_select['padj'] < 0.1) & (df_select['log2FoldChange'] < 0.5)]
+    print(df_threshold)
 threshold()

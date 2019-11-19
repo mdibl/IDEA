@@ -41,3 +41,4 @@ def request():
             print ("\t".join([p1,p2, "experimentally confirmed (prob. %.3f)" % experimental_score]))
     
         line = response.readline()
+request()
