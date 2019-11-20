@@ -75,11 +75,11 @@ with open(args.filename) as file:
         line = response.readline()
 
         while line:
-            l = line.strip().split("\t")
+            l = line.strip().split(b"\t".decode('utf-8'))
             p1, p2 = l[2], l[3]
             experimental_score = float(l[10])
             if experimental_score != 0:
-                print("\t".join([p1,p2, "experimentally confirmed (prob. %.3f)" % experimental_score]))
+                print(b"\t".join([p1,p2, "experimentally confirmed (prob. %.3f)" % experimental_score]).decode('utf-8'))
             
             line = response.readline()
     except yaml.YAMLError as exc:
