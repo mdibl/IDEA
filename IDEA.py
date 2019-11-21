@@ -31,6 +31,7 @@ with open(args.filename) as file:
         lfcSE = config['lfcSE']
         pvalue = config['pvalue']
         padj = config['padj']
+        species_id = config['species']
         df = pd.read_csv(input_path)
         # print if 0 < than padj for test
         # convert to #, most likely being read as string
@@ -48,46 +49,92 @@ with open(args.filename) as file:
         # df.set_index('genes', inplace=True)
         # print(df_threshold)
         # print(df_threshold['genes'])
-        # string-api call
-        string_api_url = "https://string-db.org/api"
-        output_format = "tsv-no-header"
-        method = "network"
+        def network():
+            string_api_url = "https://string-db.org/api"
+            output_format = "tsv-no-header"
+            method = "network"
 
-        my_genes = df_threshold['genes']
-        # print(my_genes)
-        species = "7955"
-        my_app = "www.awesome_app.org"
-        # build request
-        request_url = string_api_url + "/" + output_format + "/" + method + "?"
-        request_url += "identifiers=%s" % "%0d".join(my_genes)
-        request_url += "&" + "species=" + species
-        request_url += "&" + "caller_identity=" + my_app
+            my_genes = df_threshold['genes']
+            # print(my_genes)
+            species = species_id
+            my_app = "www.awesome_app.org"
+            # build request
+            request_url = string_api_url + "/" + output_format + "/" + method + "?"
+            request_url += "identifiers=%s" % "%0d".join(my_genes)
+            request_url += "&" + "species=" + species
+            request_url += "&" + "caller_identity=" + my_app
 
-        try:
-            response = urllib.request.urlopen(request_url)
-        except urllib.error.HTTPError as err:
-            error_message = err.read()
-            print(error_message)
-            sys.exit()
+            try:
+                response = urllib.request.urlopen(request_url)
+            except urllib.error.HTTPError as err:
+                error_message = err.read()
+                print(error_message)
+                sys.exit()
         
-        # read parse results
+            # read and parse results
+            line = response.readline()
 
-        line = response.readline()
+            while line:
+                # l = line.strip().split(b"\t".decode('utf-8'))
+                my_str = "\t"
+                my_str_as_bytes = my_str.encode("utf-8")
+                # my_decoded_str = my_str_as_bytes.decode("utf-8")
+                l = line.strip().split(my_str_as_bytes)
+                p1, p2 = l[2], l[3]
+                experimental_score = float(l[10])
+                if experimental_score != 0:
+                    print(my_str_as_bytes.join([p1,p2, b"experimentally confirmed (prob. %.3f)" % experimental_score]))
+            
+                line = response.readline()
+        network()
 
-        while line:
-            # l = line.strip().split(b"\t".decode('utf-8'))
-            my_str = "\t"
-            my_str_as_bytes = str.encode(my_str)
-            my_decoded_str = my_str_as_bytes.decode()
-            l = line.strip().split(my_str_as_bytes)
-            p1, p2 = l[2], l[3]
-            experimental_score = float(l[10])
-            if experimental_score != 0:
-                print(my_str_as_bytes.join([p1,p2, "experimentally confirmed (prob. %.3f)" % experimental_score]))
+        # for each protein in a given list, print name of best 5 interaction partners
+    
+        def partners():
+            string_api_url = "https://string-db.org/api"
+            output_format = "tsv-no-header"
+            method = "interaction_partners"
+
+            my_genes = df_threshold['genes']
+            species = species_id
+            limit = 1
+            my_app = "www.awesome_app.org"
+
+            # build request
+            request_url = string_api_url + "/" + output_format + "/" + method + "?"
+            request_url += "identifiers=%s" % "%0d".join(my_genes)
+            request_url += "&" + "species=" + species
+            request_url += "&" + "limit=" + str(limit)
+            request_url += "&" + "caller_identity=" + my_app
+
+            try:
+                response = urllib.request.urlopen(request_url)
+            except urllib.error.HTTPError as err:
+                error_message = err.read()
+                print(error_message)
+                sys.exit()
+            
+            # read and parse results
             
             line = response.readline()
+
+            while line:
+                my_str = "\t"
+                my_str_as_bytes = my_str.encode("utf-8")
+                l = line.strip().split(my_str_as_bytes)
+                query_ensp = l[0]
+                query_name = l[2]
+                partner_ensp = l[1]
+                partner_name = l[3]
+                combined_score = l[5]
+
+                print(b"\t".join([query_ensp, query_name, partner_ensp, partner_name, combined_score]))
+
+                line = response.readline()
+        partners()
+
     except yaml.YAMLError as exc:
-        print(exc)
+            print(exc)
 
 # open and read based on secondary threshold
 # slice based upon names that pass primary threshhold
