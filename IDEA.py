@@ -46,7 +46,7 @@ with open(args.filename) as file:
                                          & (df_select['padj'] < padj)]
         # df.index = df_select['genes']
         # df.set_index('genes', inplace=True)
-        print(df_threshold)
+        # print(df_threshold)
         # print(df_threshold['genes'])
         # string-api call
         string_api_url = "https://string-db.org/api"
@@ -54,7 +54,7 @@ with open(args.filename) as file:
         method = "network"
 
         my_genes = df_threshold['genes']
-        print(my_genes)
+        # print(my_genes)
         species = "7955"
         my_app = "www.awesome_app.org"
         # build request
@@ -75,11 +75,15 @@ with open(args.filename) as file:
         line = response.readline()
 
         while line:
-            l = line.strip().split(b"\t".decode('utf-8'))
+            # l = line.strip().split(b"\t".decode('utf-8'))
+            my_str = "\t"
+            my_str_as_bytes = str.encode(my_str)
+            my_decoded_str = my_str_as_bytes.decode()
+            l = line.strip().split(my_str_as_bytes)
             p1, p2 = l[2], l[3]
             experimental_score = float(l[10])
             if experimental_score != 0:
-                print(b"\t".join([p1,p2, "experimentally confirmed (prob. %.3f)" % experimental_score]).decode('utf-8'))
+                print(my_str_as_bytes.join([p1,p2, "experimentally confirmed (prob. %.3f)" % experimental_score]))
             
             line = response.readline()
     except yaml.YAMLError as exc:
