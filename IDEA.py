@@ -81,17 +81,17 @@ with open(args.filename) as file:
                 my_str_as_bytes = my_str.encode("utf-8")
                 # my_decoded_str = my_str_as_bytes.decode("utf-8")
                 l = line.strip().split(my_str_as_bytes)
-                p1, p2 = l[2], l[3]
+                p0, p1, p2, p3, p4 = l[0], l[1], l[2], l[3], l[4]
                 experimental_score = float(l[10])
                 if experimental_score != 0:
-                    s = my_str_as_bytes.join([p1,p2, b"experimentally confirmed (prob. %.3f)" % experimental_score])
+                    s = my_str_as_bytes.join([p0,p1,p2,p3,p4, b"experimentally confirmed (prob. %.3f)" % experimental_score])
                     x = s.replace(b"\t", b",")
                     print(x)
             
                 line = response.readline()
         network()
 
-        # for each protein in a given list, print name of best 5 interaction partners
+        # for each protein in a given list, print name of best interaction partner
         def partners():
             string_api_url = "https://string-db.org/api"
             output_format = "tsv-no-header"
