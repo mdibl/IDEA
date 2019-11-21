@@ -49,6 +49,7 @@ with open(args.filename) as file:
         # df.set_index('genes', inplace=True)
         # print(df_threshold)
         # print(df_threshold['genes'])
+        # for each protein in a given list, print scores of experimental significance 
         def network():
             string_api_url = "https://string-db.org/api"
             output_format = "tsv-no-header"
@@ -83,13 +84,14 @@ with open(args.filename) as file:
                 p1, p2 = l[2], l[3]
                 experimental_score = float(l[10])
                 if experimental_score != 0:
-                    print(my_str_as_bytes.join([p1,p2, b"experimentally confirmed (prob. %.3f)" % experimental_score]))
+                    s = my_str_as_bytes.join([p1,p2, b"experimentally confirmed (prob. %.3f)" % experimental_score])
+                    x = s.replace(b"\t", b",")
+                    print(x)
             
                 line = response.readline()
         network()
 
         # for each protein in a given list, print name of best 5 interaction partners
-    
         def partners():
             string_api_url = "https://string-db.org/api"
             output_format = "tsv-no-header"
@@ -115,7 +117,6 @@ with open(args.filename) as file:
                 sys.exit()
             
             # read and parse results
-            
             line = response.readline()
 
             while line:
@@ -128,7 +129,11 @@ with open(args.filename) as file:
                 partner_name = l[3]
                 combined_score = l[5]
 
-                print(b"\t".join([query_ensp, query_name, partner_ensp, partner_name, combined_score]))
+                # attempt to remove trailing \t characters in output string
+                # replaces \t with comma
+                s = my_str_as_bytes.join([query_ensp, query_name, partner_ensp, partner_name, combined_score])
+                x = s.replace(b"\t", b",")
+                print(x)
 
                 line = response.readline()
         partners()
