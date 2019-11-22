@@ -5,18 +5,30 @@ DESeq_input:
 
 # initial thresholds for DESeq2 candidates to send to String-db
 # append initial
-baseMean: 20.0
-log2FoldChange: 1.0
-lfcSE: 0.5
-pvalue: 0.0001
-padj: 0.05
+baseMean: 20.0 # lower bound
+log2FoldChange: 1.0 # lower bound on abs val +-
+lfcSE: 0.5 # upper bound
+pvalue: 0.0001 # upper bound
+padj: 0.05 # upper bound
 
 # add secondary threshold for above parameters
 # append secondary 
-
+# if adjusted pvalue is not present, how will it be treated?
+# round one, thrown out?
+# second? Maybe not use?
+t2_baseMean: 25.0
+t2_log2FoldChange: 2.0
+t2_lfcSE: 1.0
+t2_pvalue: 0.001
+t2_padj: 0.1
 # output directory
 # may be handled within python program as opposed to config file
 
 # instead of hardcoding, pass taxonomy ID to main program
 # create lookup table so that we don't have to reference ncbi for ID 
 species: "7955"
+
+# add combined_score threshold (search for higher score)
+# default to 0.95
+# on return from interaction_partners check if combined score is >= threshold
+cs_threshold: 0.95

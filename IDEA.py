@@ -32,6 +32,7 @@ with open(args.filename) as file:
         pvalue = config['pvalue']
         padj = config['padj']
         species_id = config['species']
+        cs_threshold = config['cs_threshold']
         df = pd.read_csv(input_path)
         # print if 0 < than padj for test
         # convert to #, most likely being read as string
@@ -82,11 +83,11 @@ with open(args.filename) as file:
                 # my_decoded_str = my_str_as_bytes.decode("utf-8")
                 l = line.strip().split(my_str_as_bytes)
                 p0, p1, p2, p3, p4 = l[0], l[1], l[2], l[3], l[4]
-                experimental_score = float(l[10])
+                experimental_score = float(l[5])
                 if experimental_score != 0:
                     s = my_str_as_bytes.join([p0,p1,p2,p3,p4, b"experimentally confirmed (prob. %.3f)" % experimental_score])
                     x = s.replace(b"\t", b",")
-                    print(x)
+                    # print(x)
             
                 line = response.readline()
         network()
@@ -99,14 +100,14 @@ with open(args.filename) as file:
 
             my_genes = df_threshold['genes']
             species = species_id
-            limit = 1
+            #limit = 1
             my_app = "www.awesome_app.org"
 
             # build request
             request_url = string_api_url + "/" + output_format + "/" + method + "?"
             request_url += "identifiers=%s" % "%0d".join(my_genes)
             request_url += "&" + "species=" + species
-            request_url += "&" + "limit=" + str(limit)
+            #request_url += "&" + "limit=" + str(limit)
             request_url += "&" + "caller_identity=" + my_app
 
             try:
@@ -128,15 +129,21 @@ with open(args.filename) as file:
                 partner_ensp = l[1]
                 partner_name = l[3]
                 combined_score = l[5]
-
                 # attempt to remove trailing \t characters in output string
                 # replaces \t with comma
-                s = my_str_as_bytes.join([query_ensp, query_name, partner_ensp, partner_name, combined_score])
-                x = s.replace(b"\t", b",")
+
+                # s contains extra information related to network query
+                # s = my_str_as_bytes.join([query_ensp, query_name, partner_ensp, partner_name, combined_score])
+
+                # s_conserved, only print out ensp related ids (for parsing), first and third column
+                s_cons = my_str_as_bytes.join([query_ensp, partner_ensp, combined_score])
+                x = s_cons.replace(b"\t", b",")
                 print(x)
 
                 line = response.readline()
         partners()
+
+            # next step is to pull partner_ensp from x, check it against original gene list
 
     except yaml.YAMLError as exc:
             print(exc)
