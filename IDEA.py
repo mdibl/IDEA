@@ -1,10 +1,11 @@
+from __future__ import print_function
 # TODO: check for open success, if fail die
 import yaml
 import argparse
 import pandas as pd
 import sys
+import random
 import urllib.request, urllib.error, urllib.parse
-from interaction_evidence import request
 
 # TODO: implement max_query_size(500) for now
 # avoid overloading string-db
@@ -46,17 +47,18 @@ with open(args.filename) as file:
                                          & (df_select['lfcSE'] < lfcSE)
                                          & (df_select['pvalue'] < pvalue)
                                          & (df_select['padj'] < padj)]
+        my_genes = df_threshold['genes']
         # df.index = df_select['genes']
         # df.set_index('genes', inplace=True)
         # print(df_threshold)
         # print(df_threshold['genes'])
-        # for each protein in a given list, print scores of experimental significance 
+        # for each protein in a given list, print scores of experimental significance
+
         def network():
             string_api_url = "https://string-db.org/api"
             output_format = "tsv-no-header"
             method = "network"
 
-            my_genes = df_threshold['genes']
             # print(my_genes)
             species = species_id
             my_app = "www.awesome_app.org"
@@ -98,7 +100,6 @@ with open(args.filename) as file:
             output_format = "tsv-no-header"
             method = "interaction_partners"
 
-            my_genes = df_threshold['genes']
             species = species_id
             #limit = 1
             my_app = "www.awesome_app.org"
