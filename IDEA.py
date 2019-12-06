@@ -5,6 +5,7 @@ import argparse
 import pandas as pd
 import sys
 import random
+import requests
 import urllib.request, urllib.error, urllib.parse
 
 # TODO: implement max_query_size(500) for now
@@ -53,45 +54,38 @@ with open(args.filename) as file:
         # print(df_threshold)
         # print(df_threshold['genes'])
         # for each protein in a given list, print scores of experimental significance
-
         def network():
             string_api_url = "https://string-db.org/api"
             output_format = "tsv-no-header"
             method = "network"
 
-            # print(my_genes)
-            species = species_id
-            my_app = "www.awesome_app.org"
             # build request
-            request_url = string_api_url + "/" + output_format + "/" + method + "?"
-            request_url += "identifiers=%s" % "%0d".join(my_genes)
-            request_url += "&" + "species=" + species
-            request_url += "&" + "caller_identity=" + my_app
 
-            try:
-                response = urllib.request.urlopen(request_url)
-            except urllib.error.HTTPError as err:
-                error_message = err.read()
-                print(error_message)
-                sys.exit()
+            request_url = "/".join([string_api_url, output_format, method])
+
+            params = {
+
+                "identifiers" : "%0d".join(my_genes), # your protein
+                "species" : species_id, # species NCBI identifier 
+                "caller_identity" : "www.awesome_app.org" # your app name
+            }
         
             # read and parse results
-            line = response.readline()
+            response = requests.post(request_url, data=params)
 
-            while line:
+            for line in response.text.strip().split("\n"):
+                l = line.strip().split("\t")
                 # l = line.strip().split(b"\t".decode('utf-8'))
-                my_str = "\t"
-                my_str_as_bytes = my_str.encode("utf-8")
+                #my_str = "\t"
+                #my_str_as_bytes = my_str.encode("utf-8")
                 # my_decoded_str = my_str_as_bytes.decode("utf-8")
-                l = line.strip().split(my_str_as_bytes)
                 p0, p1, p2, p3, p4 = l[0], l[1], l[2], l[3], l[4]
-                experimental_score = float(l[5])
+                experimental_score = float(l[10])
                 if experimental_score != 0:
-                    s = my_str_as_bytes.join([p0,p1,p2,p3,p4, b"experimentally confirmed (prob. %.3f)" % experimental_score])
-                    x = s.replace(b"\t", b",")
+                    print("\t".join([p0,p1,p2,p3,p4, "experimentally confirmed (prob. %.3f)" % experimental_score]))
+                    #s = my_str_as_bytes.join([p0,p1,p2,p3,p4, b"experimentally confirmed (prob. %.3f)" % experimental_score])
+                    #x = s.replace(b"\t", b",")
                     # print(x)
-            
-                line = response.readline()
         network()
 
         # for each protein in a given list, print name of best interaction partner
@@ -100,14 +94,13 @@ with open(args.filename) as file:
             output_format = "tsv-no-header"
             method = "interaction_partners"
 
-            species = species_id
             #limit = 1
             my_app = "www.awesome_app.org"
 
             # build request
             request_url = string_api_url + "/" + output_format + "/" + method + "?"
             request_url += "identifiers=%s" % "%0d".join(my_genes)
-            request_url += "&" + "species=" + species
+            request_url += "&" + "species=" + species_id
             #request_url += "&" + "limit=" + str(limit)
             request_url += "&" + "caller_identity=" + my_app
 
