@@ -121,7 +121,7 @@ with open(args.filename) as file:
                 # s = my_str_as_bytes.join([query_ensp, query_name, partner_ensp, partner_name, combined_score])
 
                 # s_conserved, only print out ensp related ids (for parsing), first and third column
-                print("\t".join([query_ensp, partner_ensp, combined_score]))
+                print("\t".join([query_ensp, query_name, partner_ensp, partner_name, combined_score]))
         partners()
 
             # next step is to pull partner_ensp from x, check it against original gene list
