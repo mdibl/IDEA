@@ -94,30 +94,21 @@ with open(args.filename) as file:
             output_format = "tsv-no-header"
             method = "interaction_partners"
 
-            #limit = 1
-            my_app = "www.awesome_app.org"
+            request_url = "/".join([string_api_url, output_format, method])
 
-            # build request
-            request_url = string_api_url + "/" + output_format + "/" + method + "?"
-            request_url += "identifiers=%s" % "%0d".join(my_genes)
-            request_url += "&" + "species=" + species_id
-            #request_url += "&" + "limit=" + str(limit)
-            request_url += "&" + "caller_identity=" + my_app
+            params = {
 
-            try:
-                response = urllib.request.urlopen(request_url)
-            except urllib.error.HTTPError as err:
-                error_message = err.read()
-                print(error_message)
-                sys.exit()
-            
-            # read and parse results
-            line = response.readline()
+                "identifiers" : "%0d".join(my_genes), # your protein
+                "species" : species_id, # species NCBI identifier
+                "limit" : 1,
+                "caller_identity" : "www.awesome_app.org" # your app name
+            }
 
-            while line:
-                my_str = "\t"
-                my_str_as_bytes = my_str.encode("utf-8")
-                l = line.strip().split(my_str_as_bytes)
+            response = requests.post(request_url, data=params)
+
+            for line in response.text.strip().split("\n"):
+    
+                l = line.strip().split("\t")
                 query_ensp = l[0]
                 query_name = l[2]
                 partner_ensp = l[1]
@@ -130,11 +121,7 @@ with open(args.filename) as file:
                 # s = my_str_as_bytes.join([query_ensp, query_name, partner_ensp, partner_name, combined_score])
 
                 # s_conserved, only print out ensp related ids (for parsing), first and third column
-                s_cons = my_str_as_bytes.join([query_ensp, partner_ensp, combined_score])
-                x = s_cons.replace(b"\t", b",")
-                print(x)
-
-                line = response.readline()
+                print("\t".join([query_ensp, partner_ensp, combined_score]))
         partners()
 
             # next step is to pull partner_ensp from x, check it against original gene list
