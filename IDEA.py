@@ -58,7 +58,7 @@ with open(args.filename) as file:
 
         # fix TypeError: sequence item 0: expected str, series found
 
-        def fetch_id():
+        def match_id():
             string_api_url = "https://string-db.org/api"
             output_format = "tsv-no-header"
             method = "get_string_ids"
@@ -81,7 +81,7 @@ with open(args.filename) as file:
                 l = line.split("\t")
                 input_identifier, string_identifier = l[0], l[2]
                 print("Input:", input_identifier, "STRING:", string_identifier, sep="\t")
-        fetch_id()
+        match_id()
 
         def network():
             string_api_url = "https://string-db.org/api"
