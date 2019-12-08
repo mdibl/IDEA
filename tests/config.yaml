@@ -3,7 +3,7 @@
 # original path: /Users/nmaki/Documents/GitHub/IDEA/tests/DESeq2_genes_wPC_DESeq2out.csv
 DESeq_input:
   class: File
-  path: /home/nathanielm/Documents/Github/IDEA/tests/DESeq2_genes_wPC_DESeq2out.csv
+  path: ./tests/DESeq2_genes_wPC_DESeq2out.csv
 
 # initial thresholds for DESeq2 candidates to send to String-db
 # append initial
