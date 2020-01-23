@@ -5,7 +5,9 @@ import pandas as pd
 import sys
 import random
 import requests
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.error
+import urllib.parse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('filename')
@@ -24,11 +26,12 @@ with open(args.filename) as file:
         df = pd.read_csv(input_path)
         # use threshold value to cut down CSV
         # only columns defined in config.yaml file
-        df_select = df[['genes', 'baseMean', 'log2FoldChange', 'lfcSE', 'pvalue', 'padj']]
+        df_select = df[['genes', 'baseMean',
+                        'log2FoldChange', 'lfcSE', 'pvalue', 'padj']]
         df_threshold = df_select.loc[(df_select['log2FoldChange'] < log2FoldChange)
-                                         & (df_select['lfcSE'] < lfcSE)
-                                         & (df_select['pvalue'] < pvalue)
-                                         & (df_select['padj'] < padj)]
+                                     & (df_select['lfcSE'] < lfcSE)
+                                     & (df_select['pvalue'] < pvalue)
+                                     & (df_select['padj'] < padj)]
         my_genes = df_threshold['genes']
 
         # fix TypeError: sequence item 0: expected str, series found
@@ -39,18 +42,19 @@ with open(args.filename) as file:
             # configure parameters
             params = {
 
-                "identifiers" : "\r".join(str([my_genes])),
-                "species" : species_id,
-                "limit" : 1,
-                "echo_query" : 1,
-                "caller_identity" : "www.awesome_app.org"
+                "identifiers": "\r".join(str([my_genes])),
+                "species": species_id,
+                "limit": 1,
+                "echo_query": 1,
+                "caller_identity": "www.awesome_app.org"
             }
             request_url = "/".join([string_api_url, output_format, method])
             results = requests.post(request_url, data=params)
             for line in results.text.strip().split("\n"):
                 l = line.split("\t")
                 input_identifier, string_identifier = l[0], l[2]
-                print("Input:", input_identifier, "STRING:", string_identifier, sep="\t")
+                print("Input:", input_identifier, "STRING:",
+                      string_identifier, sep="\t")
         fetch_id()
 
         # for each protein in a given list, print protein-protein interactions
@@ -62,11 +66,11 @@ with open(args.filename) as file:
             request_url = "/".join([string_api_url, output_format, method])
             params = {
 
-                "identifiers" : "%0d".join(my_genes), # your protein
-                "species" : species_id, # species NCBI identifier 
-                "caller_identity" : "www.awesome_app.org" # your app name
+                "identifiers": "%0d".join(my_genes),  # your protein
+                "species": species_id,  # species NCBI identifier
+                "caller_identity": "www.awesome_app.org"  # your app name
             }
-        
+
             # read and parse results
             response = requests.post(request_url, data=params)
 
@@ -75,7 +79,8 @@ with open(args.filename) as file:
                 p0, p1, p2, p3, p4 = l[0], l[1], l[2], l[3], l[4]
                 experimental_score = float(l[10])
                 if experimental_score != 0:
-                    print("\t".join([p0,p1,p2,p3,p4, "experimentally confirmed (prob. %.3f)" % experimental_score]))
+                    print("\t".join(
+                        [p0, p1, p2, p3, p4, "experimentally confirmed (prob. %.3f)" % experimental_score]))
         network()
 
         # for each protein in a given list, print name of best interaction partner(s)
@@ -89,26 +94,27 @@ with open(args.filename) as file:
 
             params = {
 
-                "identifiers" : "%0d".join(my_genes), # your protein
-                "species" : species_id, # species NCBI identifier
-                "limit" : 1,
-                "caller_identity" : "www.awesome_app.org" # your app name
+                "identifiers": "%0d".join(my_genes),  # your protein
+                "species": species_id,  # species NCBI identifier
+                "limit": 1,
+                "caller_identity": "www.awesome_app.org"  # your app name
             }
 
             response = requests.post(request_url, data=params)
 
             for line in response.text.strip().split("\n"):
-    
+
                 l = line.strip().split("\t")
                 query_ensp = l[0]
                 query_name = l[2]
                 partner_ensp = l[1]
                 partner_name = l[3]
                 combined_score = l[5]
-                print("\t".join([query_ensp, query_name, partner_ensp, partner_name, combined_score]))
+                print("\t".join([query_ensp, query_name,
+                                 partner_ensp, partner_name, combined_score]))
         partners()
     except yaml.YAMLError as exc:
-            print(exc)
+        print(exc)
 
 # open and read based on secondary threshold
 # slice based upon names that pass primary threshhold
