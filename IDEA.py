@@ -32,7 +32,8 @@ with open(args.filename) as file:
                                      & (df_select['lfcSE'] < lfcSE)
                                      & (df_select['pvalue'] < pvalue)
                                      & (df_select['padj'] < padj)]
-        my_genes = df_threshold['genes']
+        #my_genes = df_threshold['genes']
+        my_genes = df_threshold['genes'].apply(str)
         # fix TypeError: sequence item 0: expected str, series found
         def mapId():
             string_api_url = "https://string-db.org/api"
@@ -41,7 +42,7 @@ with open(args.filename) as file:
             # configure parameters
             params = {
 
-                "identifiers": "\r".join(["ENSDARG00000000002", "ENSDARG00000001975"]),
+                "identifiers": "\r".join([my_genes]),
                 "species": species_id,
                 "limit": 1,
                 "echo_query": 1,
