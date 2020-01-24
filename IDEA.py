@@ -5,6 +5,7 @@ import pandas as pd
 import sys
 import random
 import requests
+import yaml
 import urllib.request
 import urllib.error
 import urllib.parse
@@ -33,7 +34,8 @@ with open(args.filename) as file:
                                      & (df_select['pvalue'] < pvalue)
                                      & (df_select['padj'] < padj)]
         #my_genes = df_threshold['genes']
-        my_genes = df_threshold['genes'].apply(str)
+        df_threshold['genes'] = df_threshold['genes'].astype(str)
+        my_genes = df_threshold['genes']
         # fix TypeError: sequence item 0: expected str, series found
         def mapId():
             string_api_url = "https://string-db.org/api"
@@ -42,7 +44,7 @@ with open(args.filename) as file:
             # configure parameters
             params = {
 
-                "identifiers": "\r".join([my_genes]),
+                "identifiers": "\r".join(str([my_genes])),
                 "species": species_id,
                 "limit": 1,
                 "echo_query": 1,
