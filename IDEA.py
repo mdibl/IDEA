@@ -33,9 +33,8 @@ with open(args.filename) as file:
                                      & (df_select['lfcSE'] < lfcSE)
                                      & (df_select['pvalue'] < pvalue)
                                      & (df_select['padj'] < padj)]
+        my_genes = df_threshold['genes'].astype(str)
         #my_genes = df_threshold['genes']
-        df_threshold['genes'] = df_threshold['genes'].astype(str)
-        my_genes = df_threshold['genes']
         # fix TypeError: sequence item 0: expected str, series found
         def mapId():
             string_api_url = "https://string-db.org/api"
