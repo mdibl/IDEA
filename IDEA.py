@@ -31,7 +31,7 @@ with open(args.filename) as file:
                                      & (df['lfcSE'] < lfcSE)
                                      & (df['pvalue'] < pvalue)
                                      & (df['padj'] < padj)]
-        my_genes = df_threshold['genes'].astype(str)
+        my_genes = df_threshold[['genes']]
         # fix TypeError: sequence item 0: expected str, series found
         def mapId():
             string_api_url = "https://string-db.org/api"
@@ -83,7 +83,7 @@ with open(args.filename) as file:
 
         # for each protein in a given list, print name of best interaction partner(s)
         # dictated by "limit"
-        def favPartners():
+        def bestPartners():
             string_api_url = "https://string-db.org/api"
             output_format = "tsv-no-header"
             method = "interaction_partners"
@@ -110,9 +110,17 @@ with open(args.filename) as file:
                 combined_score = l[5]
                 print("\t".join([query_ensp, query_name,
                                  partner_ensp, partner_name, combined_score]))
-        favPartners()
+        bestPartners()
     except yaml.YAMLError as exc:
         print(exc)
+
+'''
+if __name__ == "__main__":
+    mapId()
+    networkInteraction()
+    bestPartners()
+print("after __name__ guard")
+'''
 
 # open and read based on secondary threshold
 # slice based upon names that pass primary threshhold
