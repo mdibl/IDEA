@@ -27,12 +27,10 @@ with open(args.filename) as file:
         df = pd.read_csv(input_path)
         # use threshold value to cut down CSV
         # only columns defined in config.yaml file
-        df_select = df[['genes', 'baseMean',
-                        'log2FoldChange', 'lfcSE', 'pvalue', 'padj']]
-        df_threshold = df_select.loc[(df_select['log2FoldChange'] < log2FoldChange)
-                                     & (df_select['lfcSE'] < lfcSE)
-                                     & (df_select['pvalue'] < pvalue)
-                                     & (df_select['padj'] < padj)]
+        df_threshold = df.loc[(df['log2FoldChange'] < log2FoldChange)
+                                     & (df['lfcSE'] < lfcSE)
+                                     & (df['pvalue'] < pvalue)
+                                     & (df['padj'] < padj)]
         my_genes = df_threshold['genes'].astype(str)
         # fix TypeError: sequence item 0: expected str, series found
         def mapId():
