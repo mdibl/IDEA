@@ -14,7 +14,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('filename')
 args = parser.parse_args()
 with open(args.filename) as file:
-    try:
         config = yaml.full_load(file)
         input_path = config['DESeq_input']['path']
         baseMean = config['baseMean']
@@ -111,8 +110,6 @@ with open(args.filename) as file:
                 print("\t".join([query_ensp, query_name,
                                  partner_ensp, partner_name, combined_score]))
         bestPartners()
-    except yaml.YAMLError as exc:
-        print(exc)
 
 '''
 if __name__ == "__main__":
