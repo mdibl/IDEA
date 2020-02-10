@@ -109,7 +109,7 @@ with open(args.filename) as file:
             combined_score = l[5]
             print("\t".join([query_ensp, query_name,
                                 partner_ensp, partner_name, combined_score]))
-        bestPartners()
+    bestPartners()
 
 '''
 if __name__ == "__main__":
