@@ -58,7 +58,8 @@ with open(args.filename) as file:
             input_identifier, string_identifier = l[0], l[2]
             print("Input:", input_identifier, "STRING:",
                     string_identifier, sep="\t")
-    mapId()
+            print(l[2])
+    #mapId()
 
     # for each protein in a given list, print protein-protein interactions
     # with medium medium or higher confidence exp score
@@ -84,7 +85,7 @@ with open(args.filename) as file:
             if experimental_score != 0:
                 print("\t".join(
                     [p0, p1, p2, p3, p4, "experimentally confirmed (prob. %.3f)" % experimental_score]))
-    networkInteraction()
+    #networkInteraction()
 
     # for each protein in a given list, print name of best interaction partner(s)
     # dictated by "limit"
@@ -115,15 +116,14 @@ with open(args.filename) as file:
             combined_score = l[5]
             print("\t".join([query_ensp, query_name,
                                 partner_ensp, partner_name, combined_score]))
-    bestPartners()
+    #bestPartners()
 
-'''
+
 if __name__ == "__main__":
     mapId()
-    networkInteraction()
-    bestPartners()
+    #networkInteraction()
+    #bestPartners()
 print("after __name__ guard")
-'''
 
 # open and read based on secondary threshold
 # slice based upon names that pass primary threshhold
