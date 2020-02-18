@@ -16,6 +16,9 @@ args = parser.parse_args()
 with open(args.filename) as file:
     config = yaml.full_load(file)
     input_path = config['DESeq_input']['path']
+
+    # TODO: fix static thresholding, allow for variable
+
     baseMean = config['baseMean']
     log2FoldChange = config['log2FoldChange']
     lfcSE = config['lfcSE']
@@ -26,12 +29,15 @@ with open(args.filename) as file:
     df = pd.read_csv(input_path)
     # use threshold value to cut down CSV
     # only columns defined in config.yaml file
-    df_threshold = df.loc[(df['log2FoldChange'] < log2FoldChange)
+    df_threshold = df.loc[(df['baseMean'] > baseMean) 
+                                    & (df['log2FoldChange'] < log2FoldChange)
                                     & (df['lfcSE'] < lfcSE)
                                     & (df['pvalue'] < pvalue)
                                     & (df['padj'] < padj)]
     my_genes = df_threshold['genes']
-    # fix TypeError: sequence item 0: expected str, series found
+
+    # TODO: Use Dataframe.append to add to gene list
+
     def mapId():
         string_api_url = "https://string-db.org/api"
         output_format = "tsv"
