@@ -63,6 +63,8 @@ with open(args.filename) as file:
 
     # for each protein in a given list, print protein-protein interactions
     # with medium medium or higher confidence exp score
+    # retrieves only the interactions between the set of input proteins 
+    # and between their closest interaction neighborhood
     def networkInteraction():
         string_api_url = "https://string-db.org/api"
         output_format = "tsv-no-header"
@@ -87,9 +89,10 @@ with open(args.filename) as file:
                     [p0, p1, p2, p3, p4, "experimentally confirmed (prob. %.3f)" % experimental_score]))
     #networkInteraction()
 
+    # provides the interactions between your set of proteins and all the other STRING proteins
     # for each protein in a given list, print name of best interaction partner(s)
     # dictated by "limit"
-    def bestPartners():
+    def interactionPartners():
         string_api_url = "https://string-db.org/api"
         output_format = "tsv-no-header"
         method = "interaction_partners"
@@ -122,7 +125,7 @@ with open(args.filename) as file:
 if __name__ == "__main__":
     mapId()
     #networkInteraction()
-    #bestPartners()
+    #interactionPartners()
 print("after __name__ guard")
 
 # open and read based on secondary threshold
