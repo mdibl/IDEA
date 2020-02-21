@@ -58,7 +58,6 @@ with open(args.filename) as file:
             input_identifier, string_identifier = l[0], l[2]
             print("Input:", input_identifier, "STRING:",
                     string_identifier, sep="\t")
-            print(l[2])
     #mapId()
 
     # for each protein in a given list, print protein-protein interactions
@@ -118,6 +117,7 @@ with open(args.filename) as file:
                                 partner_ensp, partner_name, combined_score]))
     #bestPartners()
 
+# TODO flesh out main method
 
 if __name__ == "__main__":
     mapId()
