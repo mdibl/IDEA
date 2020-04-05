@@ -2,5 +2,5 @@
     "python.linting.pylintEnabled": true,
     "python.linting.pycodestyleEnabled": false,
     "python.linting.enabled": true,
-    "python.pythonPath": "/Users/nmaki/anaconda3/bin/python"
+    "python.pythonPath": "C:\\Users\\shado\\Anaconda3\\python.exe"
 }
