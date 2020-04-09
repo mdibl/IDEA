@@ -1,5 +1,4 @@
 from __future__ import print_function
-#import yaml
 import argparse
 import pandas as pd
 import sys
@@ -39,6 +38,7 @@ with open(args.filename) as file:
     # TODO: Use Dataframe.append to add to gene list
 
     def mapId():
+        mapped_Id = []
         string_api_url = "https://string-db.org/api"
         output_format = "tsv"
         method = "get_string_ids"
@@ -58,6 +58,16 @@ with open(args.filename) as file:
             input_identifier, string_identifier = l[0], l[2]
             print("Input:", input_identifier, "STRING:",
                     string_identifier, sep="\t")
+            mapped_Id.append(line)
+            print(mapped_Id)
+        return line
+    mapId()
+    # function to pass in the appropriatly converted string protein ID?
+    # strip out species ID
+    # format to pass in for the networkInteractions function
+
+    # def prepareId():
+
 
     # for each protein in a given list, print protein-protein interactions
     # with medium medium or higher confidence exp score
@@ -119,11 +129,11 @@ with open(args.filename) as file:
 
 # TODO flesh out main method
 
-if __name__ == "__main__":
-    mapId()
+#if __name__ == "__main__":
+    #mapId()
     #networkInteraction()
     #interactionPartners()
-print("after __name__ guard")
+#print("after __name__ guard")
 
 # open and read based on secondary threshold
 # slice based upon names that pass primary threshhold
