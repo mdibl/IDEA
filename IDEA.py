@@ -61,6 +61,7 @@ with open(args.filename) as file:
             mapped_Id.append(line)
             print(mapped_Id)
         return line
+        # returning unsorted list, need to extract only strings that start with ENSDARP*
     mapId()
     # function to pass in the appropriatly converted string protein ID?
     # strip out species ID
