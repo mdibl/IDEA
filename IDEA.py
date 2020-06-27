@@ -59,11 +59,11 @@ with open(args.filename) as file:
             print("Input:", input_identifier, "STRING:",
                     string_identifier, sep="\t")
             mapped_Id.append(line)
-            print(mapped_Id)
+            #print(mapped_Id)
         return line
         # returning unsorted list, need to extract only strings that start with ENSDARP*
     mapId()
-    # function to pass in the appropriatly converted string protein ID?
+    # function to pass in the appropriately converted string protein ID?
     # strip out species ID
     # format to pass in for the networkInteractions function
 
